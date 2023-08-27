@@ -17,6 +17,7 @@ dfPatient = pd.read_csv(patient_data, encoding="latin")
 patient_data_clean = dfPatient.loc[:, ['gender', 'age', 'current_state']].dropna()
 
 app = Dash(__name__, external_stylesheets=external_stylesheets)
+server = app.server
 
 def create_covid_cases_figure(selected_series):
     fig = px.line(dfCases, x=dfCases.index, y=selected_series,
