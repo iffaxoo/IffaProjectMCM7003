@@ -60,9 +60,13 @@ def create_confirmed_patient_age_distribution_figure(selected_age_range):
     min_age, max_age = selected_age_range
     filtered_data = patient_data_clean[(patient_data_clean['age'] >= min_age) & (patient_data_clean['age'] <= max_age)]
     
-    fig = px.scatter(filtered_data, x='age', title="Age Distribution of Confirmed Patients",
-                     labels={'age': 'Age'},
-                     size_max=20, opacity=0.7)
+    # Group the data by age and count the number of patients in each age group
+    age_counts = filtered_data.groupby('age').size().reset_index(name='count')
+
+    # Create a scatter plot with age on the x-axis and patient count on the y-axis
+    fig = px.scatter(age_counts, x='age', y='count', title="Age Distribution of Confirmed Patients",
+                 labels={'age': 'Age', 'count': 'Patient Count'},
+                 size_max=20, opacity=0.7)
     fig.update_traces(marker=dict(size=8, opacity=0.7))
     return fig
 
